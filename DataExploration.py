@@ -16,8 +16,8 @@ from scipy import stats
 from scipy.stats import norm
 
 #loading data
-train = pd.read_csv("train.csv")
-test = pd.read_csv("test.csv")
+train = pd.read_csv("data/train.csv")
+test = pd.read_csv("data/test.csv")
 train.head()
 print ('The train data has {0} rows and {1} columns'.format(train.shape[0],train.shape[1]))
 print ('----------------------------')
@@ -92,20 +92,8 @@ sp_pivot.plot(kind='bar',color='red')
 plt.show()
 
 
-cat = [f for f in train.columns if train.dtypes[f] == 'object']
-def anova(frame):
-    anv = pd.DataFrame()
-    anv['features'] = cat
-    pvals = []
-    for c in cat:
-           samples = []
-           for cls in frame[c].unique():
-                  s = frame[frame[c] == cls]['SalePrice'].values
-                  samples.append(s)
-           pval = stats.f_oneway(*samples)[1]
-           pvals.append(pval)
-    anv['pval'] = pvals
-    return anv.sort_values('pval')
+
+
 
 cat_data['SalePrice'] = train.SalePrice.values
 k = anova(cat_data) 
